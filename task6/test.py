@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw    # Імпорт необхідної бібліотеки "Pillow"
+from PIL import Image, ImageDraw
 
 img = Image.open('test2.jpg')
 
@@ -6,12 +6,12 @@ draw = ImageDraw.Draw(img)  # Інструмент для редагування
 width = img.size[0]  # Задаємо ширину.
 height = img.size[1]  # Задаємо висоту.
 pix = img.load()  # Вигружаємо значення пікселів.
-w = int(width / 20)
-h = int(height / 11)-8
+w = int(width / 20)  # Число, на яке ділиться горизонтальна зона
+h = int(height / 11)-8  # Число, на яке ділиться вертикальна зона - 8 пікселів(рядок для інформації фото)
 count = red = green = blue = 0
 
 
-def coloring(x, y):                             # форбування необхідних зон
+def coloring(x, y):                             # фарбування необхідних зон
     for i in range((x - 1) * w, x * w):
         for j in range((y - 1) * h, y * h):
             a = pix[i, j][0]
@@ -27,7 +27,7 @@ for x in range(1, 21):
                 a = pix[i, j][0]
                 b = pix[i, j][1]
                 c = pix[i, j][2]
-                if b > a and b > c and b < 160 and b > 60:  # Визначення потенційно необхідних пікселів та їх запис
+                if b > a and b > c and b < 160 and b > 60:
                     red += a
                     green += b
                     blue += c
@@ -38,10 +38,9 @@ for x in range(1, 21):
                     green += b
                     count += 1
 
-                if i == x * w - 1 and j == y * h - 1 and count != 0:  # визначення відношення червоного до блакитного
+                if i == x * w - 1 and j == y * h - 1 and count != 0:
                     if red / count - blue / count > 35:
                         coloring(x, y)
-#                    print(int(red / count), int(green / count), int(blue / count))     Прінт логів
                     count = red = green = blue = 0
 
 
